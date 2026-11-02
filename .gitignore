@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+# Cache mentah API (bisa di-fetch ulang); output olahan di data/*.json tetap di-commit.
+data/raw/
