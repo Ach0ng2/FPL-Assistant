@@ -228,7 +228,7 @@ def run_bot() -> None:
         print("[Error] TELEGRAM_BOT_TOKEN belum diset di environment!")
         return
 
-    print("🤖 FPL Assistant Telegram Bot sedang berjalan...")
+    print("[INFO] FPL Assistant Telegram Bot sedang berjalan...")
     app = Application.builder().token(settings.telegram_token).build()
 
     app.add_handler(CommandHandler("start", start_command))
