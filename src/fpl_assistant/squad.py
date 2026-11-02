@@ -163,6 +163,42 @@ def load_team_state(client: FPLClient, team_id: int) -> TeamState:
     max_ft = max_free_transfers(boot)
     ft = estimate_free_transfers(history, gw, max_ft)
 
+    # Terapkan pending transfers jika ada sebelum deadline GW berikutnya
+    from .pending import load_pending_transfers
+    pending = load_pending_transfers()
+    if pending.get("gw") == gws.next and pending.get("transfers"):
+        applied_count = 0
+        for tr in pending["transfers"]:
+            out_idx = next((i for i, p in enumerate(players) if p.id == tr["out_id"]), None)
+            if out_idx is not None and tr["in_id"] in elements:
+                old_p = players[out_idx]
+                el = elements[tr["in_id"]]
+                buy_cost = el["now_cost"]
+                gain = old_p.selling_price
+                bank = bank + gain - buy_cost
+                applied_count += 1
+
+                players[out_idx] = SquadPlayer(
+                    id=el["id"],
+                    name=el["web_name"],
+                    team=teams[el["team"]]["short_name"],
+                    position=POSITIONS[el["element_type"]],
+                    squad_slot=old_p.squad_slot,
+                    is_captain=old_p.is_captain,
+                    is_vice=old_p.is_vice,
+                    now_cost=el["now_cost"],
+                    purchase_price=buy_cost,
+                    selling_price=buy_cost,
+                    status=el["status"],
+                    chance_next=el.get("chance_of_playing_next_round"),
+                    news=el.get("news") or "",
+                    form=float(el.get("form") or 0),
+                    total_points=el["total_points"],
+                    ep_next=float(el.get("ep_next") or 0),
+                )
+        ft = max(0, ft - applied_count)
+        warnings.append(f"{applied_count} transfer manual telah diaplikasikan ke skuad GW{gws.next}.")
+
     chips_used = [{"name": c["name"], "event": c["event"]} for c in history.get("chips", [])]
     chips_available = _available_chips(chip_windows(boot), chips_used, gws.next or gw)
 
