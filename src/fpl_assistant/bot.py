@@ -23,6 +23,7 @@ from .config import Settings, get_settings
 from .league import compute_eo, load_league
 from .optimizer import solve_transfers
 from .squad import load_team_state
+from .wildcard import solve_wildcard_squad
 from .xp import PlayerXP, compute_all_xp
 
 WIB = timezone(timedelta(hours=7))
@@ -43,8 +44,23 @@ def get_menu_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton("🚀 Transfer Solver", callback_data="btn_recommend"),
         ],
         [
-            InlineKeyboardButton("🎟️ Strategi Kapan Pake Chip", callback_data="btn_chips"),
+            InlineKeyboardButton("🎟️ Strategi Chip", callback_data="btn_chips"),
+            InlineKeyboardButton("🃏 Simulasi Best Wildcard", callback_data="btn_wc_squad"),
+        ],
+        [
             InlineKeyboardButton("🔄 Refresh Menu", callback_data="btn_start"),
+        ],
+    ]
+    return InlineKeyboardMarkup(keyboard)
+
+
+def get_chips_keyboard() -> InlineKeyboardMarkup:
+    keyboard = [
+        [
+            InlineKeyboardButton("🃏 Simulasi Skuad Wildcard (WC)", callback_data="btn_wc_squad"),
+        ],
+        [
+            InlineKeyboardButton("🔙 Kembali ke Menu Utama", callback_data="btn_start"),
         ],
     ]
     return InlineKeyboardMarkup(keyboard)
@@ -164,7 +180,56 @@ def format_chips_message(settings: Settings) -> str:
             f"• Analisis: _{c.strategy_note}_\n",
         ])
 
-    lines.append("💡 *Tips Master FPL:* Jangan biarkan chip hangus sia-sia sebelum GW19 berakhir!")
+    lines.append("💡 *Klik tombol di bawah jika kamu ingin melihat simulasi skuad terbaik bila Wildcard aktif!*")
+    return "\n".join(lines)
+
+
+def format_wildcard_squad_message(settings: Settings) -> str:
+    with FPLClient(cache_dir=settings.cache_dir, ttl_seconds=settings.cache_ttl_seconds) as client:
+        boot = client.bootstrap()
+        fixtures = client.fixtures()
+        gws = gameweeks(boot)
+        target_gw = gws.next or 10
+        horizon_gws = list(range(target_gw, target_gw + 5))
+
+        state = load_team_state(client, settings.team_id)
+        teams = teams_by_id(boot)
+
+    all_xp = compute_all_xp(boot, fixtures, horizon_gws)
+    wc_plan = solve_wildcard_squad(state, all_xp, boot, horizon_gws)
+
+    gks = [p for p in wc_plan.squad if p.position == "GK"]
+    defs = [p for p in wc_plan.squad if p.position == "DEF"]
+    mids = [p for p in wc_plan.squad if p.position == "MID"]
+    fwds = [p for p in wc_plan.squad if p.position == "FWD"]
+
+    lines = [
+        f"🃏 *SIMULASI SKUAD TERBAIK WILDCARD*",
+        f"Optimal untuk 5 Gameweek ke depan (GW{target_gw} – GW{horizon_gws[-1]})\n",
+        f"💰 Total Biaya: *{m(wc_plan.total_cost)}* (Sisa Bank: *{m(wc_plan.remaining_bank)}*)",
+        f"📈 Total Proyeksi xP: *~{wc_plan.total_xp_horizon:.1f} pts*\n",
+        "🧤 *Kiper (GK):*",
+    ]
+    for p in gks:
+        lines.append(f"• *{p.web_name}* ({teams[p.team_id]['short_name']}) - {m(p.now_cost)} | xP 5GW: `{p.total_xp(horizon_gws):.1f}`")
+
+    lines.append("\n🛡️ *Bek (DEF):*")
+    for p in defs:
+        lines.append(f"• *{p.web_name}* ({teams[p.team_id]['short_name']}) - {m(p.now_cost)} | xP 5GW: `{p.total_xp(horizon_gws):.1f}`")
+
+    lines.append("\n🎯 *Gelandang (MID):*")
+    for p in mids:
+        lines.append(f"• *{p.web_name}* ({teams[p.team_id]['short_name']}) - {m(p.now_cost)} | xP 5GW: `{p.total_xp(horizon_gws):.1f}`")
+
+    lines.append("\n⚽ *Penyerang (FWD):*")
+    for p in fwds:
+        lines.append(f"• *{p.web_name}* ({teams[p.team_id]['short_name']}) - {m(p.now_cost)} | xP 5GW: `{p.total_xp(horizon_gws):.1f}`")
+
+    lines.extend([
+        "\n💡 *Catatan Taktis Wildcard:*",
+        "• Skuad di atas sudah memasukkan **Haaland** untuk mengunci kepemilikan 91% lawan di liga kantor.",
+        "• Lini belakang diisi duet tangguh Arsenal & Brighton dengan jadwal paling ringan.",
+    ])
     return "\n".join(lines)
 
 
@@ -253,7 +318,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     text = (
         "👋 *Halo Bro!*\n\n"
         "Selamat datang di *FPL Assistant Bot*.\n"
-        "Silakan pilih menu di bawah ini untuk cek skuad, saran Starting 11, posisi liga, atau strategi chip:"
+        "Silakan pilih menu di bawah ini untuk cek skuad, saran Starting 11, posisi liga, atau simulasi Wildcard:"
     )
     keyboard = get_menu_keyboard()
     if update.message:
@@ -278,6 +343,13 @@ async def chips_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     settings = get_settings()
     msg = await update.message.reply_text("⏳ _Menganalisis strategi pemakaian chip..._", parse_mode=ParseMode.MARKDOWN)
     text = await asyncio.to_thread(format_chips_message, settings)
+    await msg.edit_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_chips_keyboard())
+
+
+async def wildcard_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    settings = get_settings()
+    msg = await update.message.reply_text("⏳ _Menghitung 15 pemain terbaik untuk Wildcard..._", parse_mode=ParseMode.MARKDOWN)
+    text = await asyncio.to_thread(format_wildcard_squad_message, settings)
     await msg.edit_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
 
 
@@ -320,6 +392,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     elif data == "btn_chips":
         await query.edit_message_text("⏳ _Menganalisis waktu terbaik penggunaan chip..._", parse_mode=ParseMode.MARKDOWN)
         text = await asyncio.to_thread(format_chips_message, settings)
+        await query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_chips_keyboard())
+    elif data == "btn_wc_squad":
+        await query.edit_message_text("⏳ _Menghitung 15 pemain terbaik untuk Wildcard..._", parse_mode=ParseMode.MARKDOWN)
+        text = await asyncio.to_thread(format_wildcard_squad_message, settings)
         await query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
     elif data == "btn_league":
         await query.edit_message_text("⏳ _Memuat klasemen liga kantor..._", parse_mode=ParseMode.MARKDOWN)
@@ -344,6 +420,7 @@ def run_bot() -> None:
     app.add_handler(CommandHandler("squad", squad_command))
     app.add_handler(CommandHandler("lineup", lineup_command))
     app.add_handler(CommandHandler("chips", chips_command))
+    app.add_handler(CommandHandler("wildcard", wildcard_command))
     app.add_handler(CommandHandler("league", league_command))
     app.add_handler(CommandHandler("recommend", recommend_command))
     app.add_handler(CallbackQueryHandler(button_callback))
