@@ -234,6 +234,7 @@ def main(argv: list[str] | None = None) -> None:
     rec.add_argument("--horizon", type=int, default=3, help="Jumlah gameweek horizon perhitungan")
     rec.add_argument("--max-transfers", type=int, default=2, help="Batas maksimal transfer yang dihitung")
     rec.add_argument("--notify", action="store_true", help="Kirim hasil ke Telegram")
+    sub.add_parser("bot", help="Jalankan Telegram Bot interaktif (polling)")
     sub.add_parser("snapshot", help="Simpan state ke data/state.json")
     args = parser.parse_args(argv)
 
@@ -244,5 +245,8 @@ def main(argv: list[str] | None = None) -> None:
         cmd_league(settings, args.top)
     elif args.cmd == "recommend":
         cmd_recommend(settings, horizon=args.horizon, max_transfers=args.max_transfers, notify=args.notify)
+    elif args.cmd == "bot":
+        from .bot import run_bot
+        run_bot()
     elif args.cmd == "snapshot":
         cmd_snapshot(settings)
