@@ -11,11 +11,14 @@ from rich.console import Console
 from rich.table import Table
 
 from .api import FPLClient
-from .bootstrap import gameweeks
+from .bootstrap import elements_by_id, gameweeks, teams_by_id
+from .captain import select_best_lineup
 from .config import Settings, get_settings
 from .league import compute_eo, load_league
+from .optimizer import solve_transfers
 from .squad import TeamState, load_team_state
-from .bootstrap import elements_by_id, teams_by_id
+from .telegram import send_telegram_message
+from .xp import compute_all_xp
 
 WIB = timezone(timedelta(hours=7))
 CHIP_LABEL = {"wildcard": "Wildcard", "freehit": "Free Hit", "bboost": "Bench Boost", "3xc": "Triple Captain"}
@@ -114,6 +117,87 @@ def cmd_league(settings: Settings, top: int) -> None:
     console.print("[dim]Merah = banyak dimainkan lawan tapi tidak kamu punya (risiko tertinggal).[/]")
 
 
+def cmd_recommend(settings: Settings, horizon: int = 3, max_transfers: int = 2, notify: bool = False) -> None:
+    with _client(settings) as client:
+        boot = client.bootstrap()
+        fixtures = client.fixtures()
+        gws = gameweeks(boot)
+        target_gw = gws.next or 10
+        horizon_gws = list(range(target_gw, target_gw + horizon))
+
+        state = load_team_state(client, settings.team_id)
+        report = load_league(client, settings.league_id)
+
+    console.rule(f"[bold cyan]Rekomendasi FPL GW{target_gw} (Horizon GW{target_gw}..{horizon_gws[-1]})[/]")
+    console.print(f"Menghitung proyeksi xP dan mencari skema transfer terbaik (max {max_transfers} transfer)...")
+
+    all_xp = compute_all_xp(boot, fixtures, horizon_gws)
+    plan = solve_transfers(
+        state=state,
+        all_xp=all_xp,
+        bootstrap=boot,
+        horizon_gws=horizon_gws,
+        max_transfers_to_consider=max_transfers,
+    )
+
+    # Lineup & Captain Advice
+    lineup = select_best_lineup(plan.new_squad, target_gw, report.eo, chasing=True)
+
+    # Output Console
+    console.print("\n[bold green]📌 REKOMENDASI TRANSFER:[/]")
+    if not plan.transfers_in:
+        console.print("  [yellow]TIDAK ADA TRANSFER (Roll Free Transfer)[/]")
+    else:
+        for out, in_p in zip(plan.transfers_out, plan.transfers_in):
+            console.print(
+                f"  🔴 [red]OUT:[/] {out['name']} ({m(out['sell_price'])})  -->  "
+                f"🟢 [green]IN:[/] {in_p.web_name} ({m(in_p.now_cost)}) [dim](xP GW{target_gw}: {in_p.xp_by_gw.get(target_gw, 0):.1f})[/]"
+            )
+
+    console.print(
+        f"  Total Hit: -{plan.net_cost_pts} pts | Net Gain Proyeksi xP: [bold]+{plan.expected_gain_xp:.1f}[/] | "
+        f"Sisa Bank: {m(plan.remaining_bank)}"
+    )
+
+    cap = lineup.captain_advice
+    console.print(f"\n[bold yellow]👑 CAPTAIN & VICE-CAPTAIN:[/]")
+    console.print(f"  Captain (C) : [bold]{cap.captain.web_name}[/] ({cap.captain_mode})")
+    console.print(f"  Vice (V)    : [bold]{cap.vice_captain.web_name}[/]")
+    console.print(f"  Catatan     : {cap.reason}")
+
+    console.print(f"\n[bold magenta]⚽ STARTING 11 (Proyeksi GW{target_gw}: {lineup.projected_points:.1f} pts):[/]")
+    starter_names = [f"{p.web_name} ({p.xp_by_gw.get(target_gw, 0):.1f})" for p in lineup.starting_11]
+    console.print("  " + ", ".join(starter_names))
+    bench_names = [f"{p.web_name} ({p.xp_by_gw.get(target_gw, 0):.1f})" for p in lineup.bench]
+    console.print(f"  [dim]Bench: {', '.join(bench_names)}[/]")
+
+    # Format Telegram Message
+    tf_lines = []
+    if plan.transfers_in:
+        for o, i in zip(plan.transfers_out, plan.transfers_in):
+            tf_lines.append(f"• 🔴 *OUT:* {o['name']} ➡️ 🟢 *IN:* {i.web_name} ({m(i.now_cost)})")
+    else:
+        tf_lines.append("• _Simpan Transfer (Roll FT)_")
+
+    tg_text = (
+        f"🚀 *REKOMENDASI FPL GW{target_gw}*\n"
+        f"Tim: *{state.team_name}*\n\n"
+        f"🔄 *Transfer Rekomendasi:*\n" + "\n".join(tf_lines) + "\n"
+        f"💰 Sisa Bank: *{m(plan.remaining_bank)}* | Hit: *-{plan.net_cost_pts} pts*\n\n"
+        f"👑 *Captain:* *{cap.captain.web_name}* (C)\n"
+        f"🛡️ *Vice:* *{cap.vice_captain.web_name}* (VC)\n"
+        f"💡 Mode: {cap.captain_mode}\n\n"
+        f"🎯 *Proyeksi Starter:* ~{lineup.projected_points:.1f} pts\n"
+        f"⏰ *Deadline:* {gws.next_deadline.astimezone(WIB):%a %d %b %H:%M} WIB"
+    )
+
+    if notify:
+        if send_telegram_message(settings, tg_text):
+            console.print("\n[green]✅ Notifikasi Telegram berhasil dikirim![/]")
+        else:
+            console.print("\n[yellow]⚠ Telegram token/chat_id belum diset atau pengiriman gagal.[/]")
+
+
 def cmd_snapshot(settings: Settings) -> None:
     """Tulis data/state.json — dipakai GitHub Actions & dashboard nanti."""
     with _client(settings) as client:
@@ -146,6 +230,10 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("squad", help="Tampilkan squad, bank, FT, chip")
     lg = sub.add_parser("league", help="Standings liga + EO lawan")
     lg.add_argument("--top", type=int, default=25)
+    rec = sub.add_parser("recommend", help="Rekomendasi transfer, captain, & lineup")
+    rec.add_argument("--horizon", type=int, default=3, help="Jumlah gameweek horizon perhitungan")
+    rec.add_argument("--max-transfers", type=int, default=2, help="Batas maksimal transfer yang dihitung")
+    rec.add_argument("--notify", action="store_true", help="Kirim hasil ke Telegram")
     sub.add_parser("snapshot", help="Simpan state ke data/state.json")
     args = parser.parse_args(argv)
 
@@ -154,5 +242,7 @@ def main(argv: list[str] | None = None) -> None:
         cmd_squad(settings)
     elif args.cmd == "league":
         cmd_league(settings, args.top)
+    elif args.cmd == "recommend":
+        cmd_recommend(settings, horizon=args.horizon, max_transfers=args.max_transfers, notify=args.notify)
     elif args.cmd == "snapshot":
         cmd_snapshot(settings)
