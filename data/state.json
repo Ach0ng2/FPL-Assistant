@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T10:14:19.466564+00:00",
+  "generated_at": "2026-11-02T23:49:30.251285+00:00",
   "next_deadline": "2026-11-06T18:30:00+00:00",
   "team": {
     "team_id": 5938868,
@@ -326,7 +326,7 @@
       }
     ],
     "overall_points": 459,
-    "overall_rank": 7059238,
+    "overall_rank": 7194500,
     "warnings": []
   },
   "league": {
@@ -345,22 +345,22 @@
         "captain": 411
       },
       {
-        "entry_id": 6541276,
+        "entry_id": 4107587,
         "rank": 2,
-        "team_name": "Happyface",
-        "manager": "Michael Irianto",
-        "event_total": 52,
-        "total": 638,
+        "team_name": "yolooo33",
+        "manager": "Rifki Dya Priambudi",
+        "event_total": 81,
+        "total": 640,
         "active_chip": null,
         "captain": 411
       },
       {
-        "entry_id": 4107587,
+        "entry_id": 6541276,
         "rank": 3,
-        "team_name": "yolooo33",
-        "manager": "Rifki Dya Priambudi",
-        "event_total": 72,
-        "total": 631,
+        "team_name": "Happyface",
+        "manager": "Michael Irianto",
+        "event_total": 54,
+        "total": 640,
         "active_chip": null,
         "captain": 411
       },
@@ -369,8 +369,8 @@
         "rank": 4,
         "team_name": "Vionnasa",
         "manager": "Herdi Herdiana",
-        "event_total": 51,
-        "total": 605,
+        "event_total": 53,
+        "total": 607,
         "active_chip": null,
         "captain": 411
       },
@@ -379,8 +379,8 @@
         "rank": 5,
         "team_name": "EZPZ",
         "manager": "Laurentius Gernadi",
-        "event_total": 53,
-        "total": 597,
+        "event_total": 62,
+        "total": 606,
         "active_chip": null,
         "captain": 411
       },
@@ -389,8 +389,8 @@
         "rank": 6,
         "team_name": "Pejaten Punten",
         "manager": "Ario Pratomo",
-        "event_total": 43,
-        "total": 589,
+        "event_total": 45,
+        "total": 591,
         "active_chip": null,
         "captain": 411
       },
@@ -409,8 +409,8 @@
         "rank": 8,
         "team_name": "CTRL ALT DE LIGT",
         "manager": "Khalil Ibrahim",
-        "event_total": 56,
-        "total": 583,
+        "event_total": 58,
+        "total": 585,
         "active_chip": null,
         "captain": 411
       },
@@ -419,8 +419,8 @@
         "rank": 9,
         "team_name": "Gacor Utd",
         "manager": "Rhazaq Abraham",
-        "event_total": 49,
-        "total": 568,
+        "event_total": 55,
+        "total": 574,
         "active_chip": null,
         "captain": 411
       },
@@ -439,38 +439,38 @@
         "rank": 11,
         "team_name": "Mainoo-t to Win It",
         "manager": "Raushan Al Kasyfie M",
-        "event_total": 57,
+        "event_total": 59,
+        "total": 555,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 8277857,
+        "rank": 12,
+        "team_name": "dikulum dikunyah",
+        "manager": "Aloysius Ardeyno",
+        "event_total": 62,
+        "total": 554,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 4241276,
+        "rank": 13,
+        "team_name": "Mbeumo Baggins",
+        "manager": "Reza R",
+        "event_total": 54,
         "total": 553,
         "active_chip": null,
         "captain": 411
       },
       {
         "entry_id": 4370351,
-        "rank": 12,
+        "rank": 14,
         "team_name": "Eminent",
         "manager": "Hendry Lie",
         "event_total": 32,
         "total": 547,
-        "active_chip": null,
-        "captain": 411
-      },
-      {
-        "entry_id": 8277857,
-        "rank": 13,
-        "team_name": "dikulum dikunyah",
-        "manager": "Aloysius Ardeyno",
-        "event_total": 55,
-        "total": 547,
-        "active_chip": null,
-        "captain": 411
-      },
-      {
-        "entry_id": 4241276,
-        "rank": 14,
-        "team_name": "Mbeumo Baggins",
-        "manager": "Reza R",
-        "event_total": 45,
-        "total": 544,
         "active_chip": null,
         "captain": 411
       },
@@ -519,8 +519,8 @@
         "rank": 19,
         "team_name": "Kangpijett",
         "manager": "Rizky Wudiandito Kalba",
-        "event_total": 39,
-        "total": 525,
+        "event_total": 45,
+        "total": 531,
         "active_chip": null,
         "captain": 165
       },
@@ -529,8 +529,8 @@
         "rank": 20,
         "team_name": "Mo mane",
         "manager": "Miza dito afrizal",
-        "event_total": 35,
-        "total": 508,
+        "event_total": 46,
+        "total": 519,
         "active_chip": null,
         "captain": 411
       },
@@ -555,8 +555,18 @@
         "captain": 261
       },
       {
-        "entry_id": 4522070,
+        "entry_id": 4116096,
         "rank": 23,
+        "team_name": "LFG",
+        "manager": "Ernanda Putra",
+        "event_total": 36,
+        "total": 498,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 4522070,
+        "rank": 24,
         "team_name": "Onana What's My Name",
         "manager": "Windy Sugito",
         "event_total": 55,
@@ -566,7 +576,7 @@
       },
       {
         "entry_id": 8334011,
-        "rank": 24,
+        "rank": 25,
         "team_name": "Los Porro Hermanos",
         "manager": "Kamil Adlila",
         "event_total": 44,
@@ -575,22 +585,12 @@
         "captain": 411
       },
       {
-        "entry_id": 4116096,
-        "rank": 25,
-        "team_name": "LFG",
-        "manager": "Ernanda Putra",
-        "event_total": 28,
-        "total": 490,
-        "active_chip": null,
-        "captain": 411
-      },
-      {
         "entry_id": 8510418,
         "rank": 26,
         "team_name": "Ngapain Sih Kita?",
         "manager": "Borneo Verando",
-        "event_total": 47,
-        "total": 476,
+        "event_total": 49,
+        "total": 478,
         "active_chip": null,
         "captain": 154
       },
@@ -599,8 +599,8 @@
         "rank": 27,
         "team_name": "Butcher Ngantuk",
         "manager": "Rizky Suprihadi",
-        "event_total": 45,
-        "total": 473,
+        "event_total": 47,
+        "total": 475,
         "active_chip": null,
         "captain": 53
       },
@@ -615,8 +615,18 @@
         "captain": 411
       },
       {
-        "entry_id": 5938868,
+        "entry_id": 227849,
         "rank": 29,
+        "team_name": "Tromol Ninja FC",
+        "manager": "Fikri Trisetio",
+        "event_total": 42,
+        "total": 460,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 5938868,
+        "rank": 30,
         "team_name": "AchongFC",
         "manager": "Driantama Arkan",
         "event_total": 65,
@@ -625,42 +635,32 @@
         "captain": 426
       },
       {
-        "entry_id": 227849,
-        "rank": 30,
-        "team_name": "Tromol Ninja FC",
-        "manager": "Fikri Trisetio",
-        "event_total": 37,
-        "total": 455,
+        "entry_id": 6686426,
+        "rank": 31,
+        "team_name": "the Blues",
+        "manager": "Rachmat Setiawan",
+        "event_total": 27,
+        "total": 458,
         "active_chip": null,
-        "captain": 411
+        "captain": 569
       },
       {
         "entry_id": 5699866,
-        "rank": 31,
+        "rank": 32,
         "team_name": "Arthalavista",
         "manager": "Ridho Arthasyah",
-        "event_total": 26,
-        "total": 452,
+        "event_total": 28,
+        "total": 454,
         "active_chip": null,
         "captain": 411
-      },
-      {
-        "entry_id": 6686426,
-        "rank": 32,
-        "team_name": "the Blues",
-        "manager": "Rachmat Setiawan",
-        "event_total": 19,
-        "total": 450,
-        "active_chip": null,
-        "captain": 569
       },
       {
         "entry_id": 9135965,
         "rank": 33,
         "team_name": "dimzerlangga",
         "manager": "Dimas Erlangga",
-        "event_total": 24,
-        "total": 381,
+        "event_total": 26,
+        "total": 383,
         "active_chip": null,
         "captain": 552
       }
@@ -1267,26 +1267,6 @@
         "eo": 0.030303030303030304
       },
       {
-        "id": 305,
-        "name": "Davis",
-        "team": "IPS",
-        "position": "DEF",
-        "owned_pct": 6.0606060606060606,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
-        "id": 272,
-        "name": "Kusi-Asare",
-        "team": "FUL",
-        "position": "FWD",
-        "owned_pct": 9.090909090909092,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
         "id": 464,
         "name": "Wissa",
         "team": "NEW",
@@ -1301,6 +1281,26 @@
         "name": "Lammens",
         "team": "MUN",
         "position": "GK",
+        "owned_pct": 9.090909090909092,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 305,
+        "name": "Davis",
+        "team": "IPS",
+        "position": "DEF",
+        "owned_pct": 6.0606060606060606,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 272,
+        "name": "Kusi-Asare",
+        "team": "FUL",
+        "position": "FWD",
         "owned_pct": 9.090909090909092,
         "start_pct": 3.0303030303030303,
         "captain_pct": 0.0,
@@ -1367,6 +1367,26 @@
         "eo": 0.030303030303030304
       },
       {
+        "id": 362,
+        "name": "Jacquet",
+        "team": "LIV",
+        "position": "DEF",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 13,
+        "name": "Rice",
+        "team": "ARS",
+        "position": "MID",
+        "owned_pct": 6.0606060606060606,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
         "id": 88,
         "name": "Kayode",
         "team": "BRE",
@@ -1391,26 +1411,6 @@
         "name": "Pickford",
         "team": "EVE",
         "position": "GK",
-        "owned_pct": 6.0606060606060606,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
-        "id": 362,
-        "name": "Jacquet",
-        "team": "LIV",
-        "position": "DEF",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
-        "id": 13,
-        "name": "Rice",
-        "team": "ARS",
-        "position": "MID",
         "owned_pct": 6.0606060606060606,
         "start_pct": 3.0303030303030303,
         "captain_pct": 0.0,
@@ -1477,36 +1477,6 @@
         "eo": 0.030303030303030304
       },
       {
-        "id": 579,
-        "name": "Araujo",
-        "team": "LIV",
-        "position": "DEF",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
-        "id": 345,
-        "name": "Tanaka",
-        "team": "LEE",
-        "position": "MID",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
-        "id": 106,
-        "name": "Thiago",
-        "team": "BRE",
-        "position": "FWD",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 3.0303030303030303,
-        "captain_pct": 0.0,
-        "eo": 0.030303030303030304
-      },
-      {
         "id": 567,
         "name": "Horníček",
         "team": "NEW",
@@ -1552,6 +1522,36 @@
         "team": "BHA",
         "position": "DEF",
         "owned_pct": 6.0606060606060606,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 579,
+        "name": "Araujo",
+        "team": "LIV",
+        "position": "DEF",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 345,
+        "name": "Tanaka",
+        "team": "LEE",
+        "position": "MID",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 3.0303030303030303,
+        "captain_pct": 0.0,
+        "eo": 0.030303030303030304
+      },
+      {
+        "id": 106,
+        "name": "Thiago",
+        "team": "BRE",
+        "position": "FWD",
+        "owned_pct": 3.0303030303030303,
         "start_pct": 3.0303030303030303,
         "captain_pct": 0.0,
         "eo": 0.030303030303030304
@@ -1627,21 +1627,21 @@
         "eo": 0.0
       },
       {
-        "id": 301,
-        "name": "Palmer",
-        "team": "IPS",
-        "position": "GK",
-        "owned_pct": 6.0606060606060606,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
         "id": 368,
         "name": "Szoboszlai",
         "team": "LIV",
         "position": "MID",
         "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
+        "id": 301,
+        "name": "Palmer",
+        "team": "IPS",
+        "position": "GK",
+        "owned_pct": 6.0606060606060606,
         "start_pct": 0.0,
         "captain_pct": 0.0,
         "eo": 0.0
@@ -1797,6 +1797,26 @@
         "eo": 0.0
       },
       {
+        "id": 140,
+        "name": "Sánchez",
+        "team": "CHE",
+        "position": "GK",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
+        "id": 69,
+        "name": "Scott",
+        "team": "BOU",
+        "position": "MID",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
         "id": 536,
         "name": "Reinildo",
         "team": "SUN",
@@ -1820,26 +1840,6 @@
         "id": 268,
         "name": "King",
         "team": "FUL",
-        "position": "MID",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
-        "id": 140,
-        "name": "Sánchez",
-        "team": "CHE",
-        "position": "GK",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
-        "id": 69,
-        "name": "Scott",
-        "team": "BOU",
         "position": "MID",
         "owned_pct": 3.0303030303030303,
         "start_pct": 0.0,
@@ -1877,16 +1877,6 @@
         "eo": 0.0
       },
       {
-        "id": 156,
-        "name": "Neto",
-        "team": "CHE",
-        "position": "MID",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
         "id": 116,
         "name": "Dunk",
         "team": "BHA",
@@ -1900,6 +1890,36 @@
         "id": 591,
         "name": "Enciso",
         "team": "IPS",
+        "position": "MID",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
+        "id": 156,
+        "name": "Neto",
+        "team": "CHE",
+        "position": "MID",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
+        "id": 200,
+        "name": "Lacroix",
+        "team": "CHE",
+        "position": "DEF",
+        "owned_pct": 3.0303030303030303,
+        "start_pct": 0.0,
+        "captain_pct": 0.0,
+        "eo": 0.0
+      },
+      {
+        "id": 70,
+        "name": "Kluivert",
+        "team": "BOU",
         "position": "MID",
         "owned_pct": 3.0303030303030303,
         "start_pct": 0.0,
@@ -1921,26 +1941,6 @@
         "name": "J.Angulo",
         "team": "SUN",
         "position": "FWD",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
-        "id": 200,
-        "name": "Lacroix",
-        "team": "CHE",
-        "position": "DEF",
-        "owned_pct": 3.0303030303030303,
-        "start_pct": 0.0,
-        "captain_pct": 0.0,
-        "eo": 0.0
-      },
-      {
-        "id": 70,
-        "name": "Kluivert",
-        "team": "BOU",
-        "position": "MID",
         "owned_pct": 3.0303030303030303,
         "start_pct": 0.0,
         "captain_pct": 0.0,
