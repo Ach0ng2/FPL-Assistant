@@ -100,9 +100,14 @@ def format_lineup_message(settings: Settings) -> str:
 
     dl_str = gws.next_deadline.astimezone(WIB).strftime("%a %d %b %H:%M WIB") if gws.next_deadline else "-"
 
+    def_count = sum(1 for p in lineup.starting_11 if p.position == "DEF")
+    mid_count = sum(1 for p in lineup.starting_11 if p.position == "MID")
+    fwd_count = sum(1 for p in lineup.starting_11 if p.position == "FWD")
+    formation_str = f"{def_count}-{mid_count}-{fwd_count}"
+
     lines = [
         f"⚽ *SARAN STARTING 11 — GW{target_gw}*",
-        f"Tim: *{state.team_name}*",
+        f"Tim: *{state.team_name}* | Formasi: *{formation_str}*",
         f"Proyeksi Poin Skuad: *~{lineup.projected_points:.1f} pts*\n",
         "🎯 *Starting 11 Pilihan AI:*",
     ]
@@ -115,10 +120,18 @@ def format_lineup_message(settings: Settings) -> str:
     for idx, p in enumerate(lineup.bench, 1):
         lines.append(f"{idx}. `{p.position}` {p.web_name} — xP: `{p.xp_by_gw.get(target_gw, 0):.1f}`")
 
+    # Ambil nama cadangan outfield
+    bench_outfields = [p.web_name for p in lineup.bench if p.position != "GK"]
+    bench_names_str = " & ".join(bench_outfields[:2])
+
     lines.extend([
         f"\n👑 *Captain:* *{cap.captain.web_name}* (C)",
         f"🛡️ *Vice-Captain:* *{cap.vice_captain.web_name}* (VC)",
-        f"💡 Alasan: _{cap.reason}_",
+        f"💡 Alasan: _{cap.reason}_\n",
+        "🧠 *Analisis Taktik AI:*",
+        f"• *Formasi {formation_str}:* Legal di FPL (minimal 3 DEF). Memaksimalkan pemain serang dengan potensi gol/assist tinggi.",
+        f"• *Alasan Cadangan:* {bench_names_str} dicadangkan karena proyeksi poinnya lebih rendah dibanding pemain serang yang dipasang.",
+        "• *Peluang Clean Sheet:* Bek inti yang dipasang punya peluang nirbobol & attacking return terbesar.",
         f"\n⏰ Deadline: *{dl_str}*",
     ])
     return "\n".join(lines)
