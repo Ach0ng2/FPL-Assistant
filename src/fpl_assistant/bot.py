@@ -18,6 +18,7 @@ from telegram.ext import (
 from .api import FPLClient
 from .bootstrap import elements_by_id, gameweeks, teams_by_id
 from .captain import select_best_lineup
+from .chips import evaluate_chip_strategy
 from .config import Settings, get_settings
 from .league import compute_eo, load_league
 from .optimizer import solve_transfers
@@ -42,6 +43,7 @@ def get_menu_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton("🚀 Transfer Solver", callback_data="btn_recommend"),
         ],
         [
+            InlineKeyboardButton("🎟️ Strategi Kapan Pake Chip", callback_data="btn_chips"),
             InlineKeyboardButton("🔄 Refresh Menu", callback_data="btn_start"),
         ],
     ]
@@ -120,7 +122,6 @@ def format_lineup_message(settings: Settings) -> str:
     for idx, p in enumerate(lineup.bench, 1):
         lines.append(f"{idx}. `{p.position}` {p.web_name} — xP: `{p.xp_by_gw.get(target_gw, 0):.1f}`")
 
-    # Ambil nama cadangan outfield
     bench_outfields = [p.web_name for p in lineup.bench if p.position != "GK"]
     bench_names_str = " & ".join(bench_outfields[:2])
 
@@ -134,6 +135,36 @@ def format_lineup_message(settings: Settings) -> str:
         "• *Peluang Clean Sheet:* Bek inti yang dipasang punya peluang nirbobol & attacking return terbesar.",
         f"\n⏰ Deadline: *{dl_str}*",
     ])
+    return "\n".join(lines)
+
+
+def format_chips_message(settings: Settings) -> str:
+    with FPLClient(cache_dir=settings.cache_dir, ttl_seconds=settings.cache_ttl_seconds) as client:
+        boot = client.bootstrap()
+        fixtures = client.fixtures()
+        gws = gameweeks(boot)
+        target_gw = gws.next or 10
+        horizon_gws = list(range(target_gw, min(20, target_gw + 5)))
+
+        state = load_team_state(client, settings.team_id)
+
+    all_xp = compute_all_xp(boot, fixtures, horizon_gws)
+    chips_plan = evaluate_chip_strategy(state, all_xp, target_gw, horizon_gws)
+
+    lines = [
+        "🎟️ *STRATEGI PENGGUNAAN CHIP (PARUH 1)*",
+        "⚠️ _Ingat: Semua chip paruh pertama hangus setelah GW19!_\n",
+    ]
+
+    for c in chips_plan:
+        urgency_badge = "🔴 SEGERA" if c.urgency == "HIGH" else "🟡 PERTIMBANGKAN" if c.urgency == "MEDIUM" else "🟢 SANTAI"
+        lines.extend([
+            f"📌 *{c.chip_name}* [{urgency_badge}]",
+            f"• Waktu Ideal: *{c.recommended_gw}*",
+            f"• Analisis: _{c.strategy_note}_\n",
+        ])
+
+    lines.append("💡 *Tips Master FPL:* Jangan biarkan chip hangus sia-sia sebelum GW19 berakhir!")
     return "\n".join(lines)
 
 
@@ -222,7 +253,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     text = (
         "👋 *Halo Bro!*\n\n"
         "Selamat datang di *FPL Assistant Bot*.\n"
-        "Silakan pilih menu di bawah ini untuk cek skuad, saran Starting 11, posisi liga, atau optimasi transfer:"
+        "Silakan pilih menu di bawah ini untuk cek skuad, saran Starting 11, posisi liga, atau strategi chip:"
     )
     keyboard = get_menu_keyboard()
     if update.message:
@@ -240,6 +271,13 @@ async def lineup_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     settings = get_settings()
     msg = await update.message.reply_text("⏳ _Menghitung formasi Starting 11 terbaik..._", parse_mode=ParseMode.MARKDOWN)
     text = await asyncio.to_thread(format_lineup_message, settings)
+    await msg.edit_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
+
+
+async def chips_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    settings = get_settings()
+    msg = await update.message.reply_text("⏳ _Menganalisis strategi pemakaian chip..._", parse_mode=ParseMode.MARKDOWN)
+    text = await asyncio.to_thread(format_chips_message, settings)
     await msg.edit_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
 
 
@@ -279,6 +317,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         await query.edit_message_text("⏳ _Menganalisis Starting 11 terbaik skuad saat ini..._", parse_mode=ParseMode.MARKDOWN)
         text = await asyncio.to_thread(format_lineup_message, settings)
         await query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
+    elif data == "btn_chips":
+        await query.edit_message_text("⏳ _Menganalisis waktu terbaik penggunaan chip..._", parse_mode=ParseMode.MARKDOWN)
+        text = await asyncio.to_thread(format_chips_message, settings)
+        await query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=get_menu_keyboard())
     elif data == "btn_league":
         await query.edit_message_text("⏳ _Memuat klasemen liga kantor..._", parse_mode=ParseMode.MARKDOWN)
         text = await asyncio.to_thread(format_league_message, settings)
@@ -301,6 +343,7 @@ def run_bot() -> None:
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("squad", squad_command))
     app.add_handler(CommandHandler("lineup", lineup_command))
+    app.add_handler(CommandHandler("chips", chips_command))
     app.add_handler(CommandHandler("league", league_command))
     app.add_handler(CommandHandler("recommend", recommend_command))
     app.add_handler(CallbackQueryHandler(button_callback))
