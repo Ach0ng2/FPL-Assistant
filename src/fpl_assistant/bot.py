@@ -425,4 +425,30 @@ def run_bot() -> None:
     app.add_handler(CommandHandler("recommend", recommend_command))
     app.add_handler(CallbackQueryHandler(button_callback))
 
-    app.run_polling()
+    port = os.getenv("PORT")
+    if port:
+        # Jalankan mini HTTP web-server di background agar kompatibel dengan Render Free Web Service
+        from aiohttp import web
+
+        async def handle_ping(request):
+            return web.Response(text="FPL Assistant Bot is active 🟢")
+
+        async def main_cloud():
+            server = web.Application()
+            server.router.add_get("/", handle_ping)
+            server.router.add_get("/healthz", handle_ping)
+            runner = web.AppRunner(server)
+            await runner.setup()
+            site = web.TCPSite(runner, "0.0.0.0", int(port))
+            await site.start()
+            print(f"[INFO] Cloud Health Server running on port {port}")
+
+            async with app:
+                await app.start()
+                await app.updater.start_polling()
+                while True:
+                    await asyncio.sleep(3600)
+
+        asyncio.run(main_cloud())
+    else:
+        app.run_polling()
