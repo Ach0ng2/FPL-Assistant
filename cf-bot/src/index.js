@@ -3,7 +3,8 @@
  * 100% Gratis, Zero-Server, Respon Instan (<50ms).
  */
 
-const KEYBOARD = {
+// Inline Keyboard (tombol di dalam balon pesan)
+const INLINE_KEYBOARD = {
   inline_keyboard: [
     [
       { text: "👕 Skuad & Info Tim", callback_data: "btn_squad" },
@@ -17,8 +18,23 @@ const KEYBOARD = {
       { text: "🎟️ Strategi Chip", callback_data: "btn_chips" },
       { text: "🃏 Simulasi Best Wildcard", callback_data: "btn_wc_squad" },
     ],
-    [{ text: "🔄 Refresh Menu", callback_data: "btn_start" }],
+    [
+      { text: "📖 Panduan & Kemampuan Bot", callback_data: "btn_help" },
+      { text: "🔄 Refresh Menu", callback_data: "btn_start" },
+    ],
   ],
+};
+
+// Reply Keyboard (tombol permanen di bawah keyboard chat kamu)
+const REPLY_KEYBOARD = {
+  keyboard: [
+    [{ text: "👕 Skuad & Info Tim" }, { text: "🏆 Klasemen & EO Liga" }],
+    [{ text: "⚽ Rekomendasi Starting 11" }, { text: "🚀 Transfer Solver" }],
+    [{ text: "🎟️ Strategi Chip" }, { text: "🃏 Simulasi Best Wildcard" }],
+    [{ text: "📖 Panduan & Kemampuan Bot" }, { text: "🚀 Start Bot / Refresh" }],
+  ],
+  resize_keyboard: true,
+  is_persistent: true,
 };
 
 const CHIPS_KEYBOARD = {
@@ -57,6 +73,42 @@ async function fetchState(env) {
 }
 
 // Formatters
+function getHelpText() {
+  return (
+    `📖 *PANDUAN LENGKAP & KEMAMPUAN BOT FPL ASSISTANT*\n\n` +
+    `Bot ini adalah asisten taktik & optimasi FPL pribadi kamu yang dirancang menggunakan *Matematika Linear Programming (MILP)* dan *Data Real-Time FPL* untuk mendominasi Liga Kantor.\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `🔥 *FITUR UTAMA & CARA KERJANYA:*\n\n` +
+    `1️⃣ *👕 Skuad & Info Tim (/squad)*\n` +
+    `• Menampilkan 15 pemain tim kamu beserta harga beli & harga jual riil (aturan potong 50% profit).\n` +
+    `• Menampilkan sisa budget di Bank, jatah Free Transfer (FT), poin total, serta ranking global.\n` +
+    `• Otomatis mendeteksi status cedera (⚠️) atau suspensi kartu secara live.\n\n` +
+    `2️⃣ *⚽ Rekomendasi Starting 11 (/lineup)*\n` +
+    `• Memilihkan 11 pemain starter terbaik & urutan 4 pemain cadangan dari skuad kamu.\n` +
+    `• Dilengkapi *Analisis Taktik AI*: menjelaskan alasan formasi (misal 3-4-3), peluang nirbobol (clean sheet), dan mengapa pemain tertentu dicadangkan.\n` +
+    `• Memilih Captain (C) dan Vice-Captain (VC) dengan strategi *Shield vs Differential*.\n\n` +
+    `3️⃣ *🚀 AI Transfer Solver (/recommend)*\n` +
+    `• Menggunakan algoritma *HiGHS MILP Solver* untuk mencari kombinasi transfer paling menguntungkan.\n` +
+    `• Memaksimalkan proyeksi poin (*Expected Points / xP*) untuk horizon 3 Gameweek ke depan.\n` +
+    `• Menghitung otomatis jatah FT, sisa uang bank, batas maksimal 3 pemain per klub, dan penalti hit (-4 pts).\n\n` +
+    `4️⃣ *🎟️ Strategi Pemakaian Chip (/chips)*\n` +
+    `• Menganalisis kondisi tim untuk menentukan waktu terbaik memakai 4 chip: *Wildcard, Triple Captain, Bench Boost, dan Free Hit*.\n` +
+    `• Memberikan status urgensi (🔴 SEGERA / 🟡 PERTIMBANGKAN / 🟢 SANTAI).\n` +
+    `• Mengingatkan batas deadline GW19 sebelum chip paruh pertama hangus!\n\n` +
+    `5️⃣ *🃏 Simulasi Best Wildcard (/wildcard)*\n` +
+    `• Meracik ulang 15 pemain impian dari nol sesuai pagu budget kamu saat ini.\n` +
+    `• Dirancang optimal untuk 5 Gameweek ke depan, mengunci pemain kunci liga (seperti Haaland), dan mengombinasikan bek/gelandang bernilai xP tertinggi.\n\n` +
+    `6️⃣ *🏆 Klasemen & Analisis Lawan (/league)*\n` +
+    `• Memantau klasemen 5 besar dan posisi kamu di *Liga Shegga-rio*.\n` +
+    `• Menghitung *Local Effective Ownership (EO)*: menunjukkan pemain rival yang paling mengancam posisi kamu jika mereka mencetak poin.\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `💡 *CARA PENGGUNAAN:*\n` +
+    `• Kamu bisa klik tombol keyboard di bawah kolom chat.\n` +
+    `• Atau klik tombol inline di dalam pesan.\n` +
+    `• Atau ketik perintah slash seperti \`/squad\`, \`/lineup\`, \`/recommend\`, \`/chips\`, \`/wildcard\`, \`/league\`.`
+  );
+}
+
 function getSquadText(state) {
   const t = state.team;
   const dl = formatDate(state.next_deadline);
@@ -228,7 +280,7 @@ export default {
       const update = await request.json();
       const token = env.TELEGRAM_BOT_TOKEN;
 
-      // Handle Callback Button Click
+      // Handle Callback Button Click (Tombol di dalam pesan)
       if (update.callback_query) {
         const query = update.callback_query;
         const data = query.data;
@@ -242,14 +294,14 @@ export default {
             chat_id: chatId,
             message_id: msgId,
             text: "Pilih menu di bawah ini:",
-            reply_markup: KEYBOARD,
+            reply_markup: INLINE_KEYBOARD,
           });
           return new Response("OK");
         }
 
         const state = await fetchState(env);
         let text = "";
-        let kb = KEYBOARD;
+        let kb = INLINE_KEYBOARD;
 
         if (data === "btn_squad") text = getSquadText(state);
         else if (data === "btn_lineup") text = getLineupText(state);
@@ -259,6 +311,7 @@ export default {
           text = getChipsText(state);
           kb = CHIPS_KEYBOARD;
         } else if (data === "btn_wc_squad") text = getWildcardText(state);
+        else if (data === "btn_help") text = getHelpText();
 
         await tgCall(token, "editMessageText", {
           chat_id: chatId,
@@ -271,34 +324,50 @@ export default {
         return new Response("OK");
       }
 
-      // Handle Text Commands (/start, /squad, /lineup, dll)
+      // Handle Text Messages & Keyboard Button Clicks
       if (update.message && update.message.text) {
         const chatId = update.message.chat.id;
-        const cmd = update.message.text.trim().toLowerCase();
+        const textIn = update.message.text.trim();
+        const cmd = textIn.toLowerCase();
 
-        if (cmd === "/start") {
+        if (cmd === "/start" || textIn.includes("Start Bot")) {
           await tgCall(token, "sendMessage", {
             chat_id: chatId,
-            text: "👋 *Halo Bro!*\n\nSelamat datang di *FPL Assistant Bot (Cloudflare Edition)*.\nSilakan pilih menu di bawah ini untuk cek skuad, Starting 11, atau strategi:",
+            text:
+              "👋 *Halo Bro!*\n\n" +
+              "Selamat datang di *FPL Assistant Bot (Cloudflare Edition)*.\n" +
+              "Sekarang kamu bisa **klik tombol di bawah chat keyboard** atau pilih tombol di pesan untuk navigasi:",
             parse_mode: "Markdown",
-            reply_markup: KEYBOARD,
+            reply_markup: REPLY_KEYBOARD,
+          });
+          return new Response("OK");
+        }
+
+        if (cmd === "/help" || textIn.includes("Panduan")) {
+          await tgCall(token, "sendMessage", {
+            chat_id: chatId,
+            text: getHelpText(),
+            parse_mode: "Markdown",
+            reply_markup: INLINE_KEYBOARD,
           });
           return new Response("OK");
         }
 
         const state = await fetchState(env);
         let text = "";
-        let kb = KEYBOARD;
+        let kb = INLINE_KEYBOARD;
 
-        if (cmd === "/squad") text = getSquadText(state);
-        else if (cmd === "/lineup") text = getLineupText(state);
-        else if (cmd === "/league") text = getLeagueText(state);
-        else if (cmd === "/recommend") text = getRecommendText(state);
-        else if (cmd === "/chips") {
+        if (cmd === "/squad" || textIn.includes("Skuad")) text = getSquadText(state);
+        else if (cmd === "/lineup" || textIn.includes("Starting 11")) text = getLineupText(state);
+        else if (cmd === "/league" || textIn.includes("Klasemen")) text = getLeagueText(state);
+        else if (cmd === "/recommend" || textIn.includes("Transfer Solver")) text = getRecommendText(state);
+        else if (cmd === "/chips" || textIn.includes("Strategi Chip")) {
           text = getChipsText(state);
           kb = CHIPS_KEYBOARD;
-        } else if (cmd === "/wildcard") text = getWildcardText(state);
-        else text = "Perintah tidak dikenali. Ketik /start untuk melihat menu tombol.";
+        } else if (cmd === "/wildcard" || textIn.includes("Wildcard")) text = getWildcardText(state);
+        else {
+          text = "Perintah tidak dikenali. Ketik /start atau klik tombol menu di bawah untuk melihat pilihan.";
+        }
 
         await tgCall(token, "sendMessage", {
           chat_id: chatId,
