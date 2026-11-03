@@ -1,0 +1,8 @@
+name = "fpl-assistant-bot"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+
+[vars]
+TELEGRAM_BOT_TOKEN = "8844212308:AAHIQ-OhBYwcnWUFzEtF-KINZYBymNZT348"
+TELEGRAM_CHAT_ID = "8119140526"
+GITHUB_STATE_URL = "https://raw.githubusercontent.com/Ach0ng2/FPL-Assistant/main/data/state.json"
