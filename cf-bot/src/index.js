@@ -25,13 +25,16 @@ const INLINE_KEYBOARD = {
   ],
 };
 
-// Reply Keyboard (tombol permanen di bawah keyboard chat kamu)
+// Reply Keyboard (tombol full-width 1 kolom per baris persis seperti di screenshot kamu)
 const REPLY_KEYBOARD = {
   keyboard: [
-    [{ text: "👕 Skuad & Info Tim" }, { text: "🏆 Klasemen & EO Liga" }],
-    [{ text: "⚽ Rekomendasi Starting 11" }, { text: "🚀 Transfer Solver" }],
-    [{ text: "🎟️ Strategi Chip" }, { text: "🃏 Simulasi Best Wildcard" }],
-    [{ text: "📖 Panduan & Kemampuan Bot" }, { text: "🚀 Start Bot / Refresh" }],
+    [{ text: "👕 Skuad & Info Tim" }],
+    [{ text: "⚽ Rekomendasi Starting 11" }],
+    [{ text: "🚀 Transfer Solver" }],
+    [{ text: "🎟️ Strategi Chip" }],
+    [{ text: "🃏 Simulasi Best Wildcard" }],
+    [{ text: "🏆 Klasemen & EO Liga" }],
+    [{ text: "📖 Panduan & Kemampuan Bot" }],
   ],
   resize_keyboard: true,
   is_persistent: true,
