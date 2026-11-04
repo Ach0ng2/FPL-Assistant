@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T22:14:50.033789+00:00",
+  "generated_at": "2026-11-04T14:07:59.991170+00:00",
   "next_deadline": "2026-11-06T18:30:00+00:00",
   "team": {
     "team_id": 5938868,
@@ -127,7 +127,7 @@
         "squad_slot": 7,
         "is_captain": false,
         "is_vice": false,
-        "now_cost": 81,
+        "now_cost": 82,
         "purchase_price": 75,
         "selling_price": 78,
         "status": "a",
@@ -326,7 +326,7 @@
       }
     ],
     "overall_points": 461,
-    "overall_rank": 7277500,
+    "overall_rank": 7277489,
     "warnings": []
   },
   "league": {
