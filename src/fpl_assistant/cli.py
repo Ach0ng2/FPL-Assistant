@@ -199,29 +199,14 @@ def cmd_recommend(settings: Settings, horizon: int = 3, max_transfers: int = 2, 
 
 
 def cmd_snapshot(settings: Settings) -> None:
-    """Tulis data/state.json — dipakai GitHub Actions & dashboard nanti."""
-    with _client(settings) as client:
-        state = load_team_state(client, settings.team_id)
-        report = load_league(client, settings.league_id)
-        gws = gameweeks(client.bootstrap())
-    out = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "next_deadline": gws.next_deadline.isoformat() if gws.next_deadline else None,
-        "team": asdict(state),
-        "league": {
-            "id": report.league_id,
-            "name": report.league_name,
-            "gw": report.gw,
-            "standings": [
-                {k: v for k, v in asdict(e).items() if k != "multipliers"} for e in report.entries
-            ],
-            "eo": [asdict(p) for p in report.eo],
-        },
-    }
+    """Tulis data/state.json lengkap untuk diakses Cloudflare Worker."""
+    from .snapshot_builder import generate_full_snapshot
+    console.print("[dim]Menghitung snapshot data FPL lengkap...[/]")
+    out = generate_full_snapshot(settings)
     path = settings.data_dir / "state.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
-    console.print(f"Tersimpan: {path}")
+    console.print(f"[green]Tersimpan:[/green] {path}")
 
 
 def main(argv: list[str] | None = None) -> None:
