@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T10:41:34.019810+00:00",
+  "generated_at": "2026-11-07T12:46:14.624396+00:00",
   "target_gw": 11,
   "next_deadline": "2026-11-21T11:00:00+00:00",
   "team": {
@@ -44,9 +44,9 @@
         "status": "a",
         "chance_next": 100,
         "news": "",
-        "form": 5.8,
-        "total_points": 53,
-        "ep_next": 5.8
+        "form": 6.0,
+        "total_points": 54,
+        "ep_next": 6.0
       },
       {
         "id": 4,
@@ -326,8 +326,8 @@
         "stop_event": 38
       }
     ],
-    "overall_points": 463,
-    "overall_rank": 7257542,
+    "overall_points": 464,
+    "overall_rank": 7237266,
     "warnings": []
   },
   "league": {
@@ -340,8 +340,8 @@
         "rank": 1,
         "team_name": "yolooo33",
         "manager": "Rifki Dya Priambudi",
-        "event_total": 16,
-        "total": 656,
+        "event_total": 17,
+        "total": 657,
         "active_chip": null,
         "captain": 411
       },
@@ -350,8 +350,8 @@
         "rank": 2,
         "team_name": "Pradawa",
         "manager": "Adrian Dwitomo",
-        "event_total": 0,
-        "total": 645,
+        "event_total": 1,
+        "total": 646,
         "active_chip": null,
         "captain": 411
       },
@@ -360,8 +360,8 @@
         "rank": 3,
         "team_name": "Happyface",
         "manager": "Michael Irianto",
-        "event_total": 0,
-        "total": 640,
+        "event_total": 2,
+        "total": 642,
         "active_chip": null,
         "captain": 411
       },
@@ -370,8 +370,8 @@
         "rank": 4,
         "team_name": "EZPZ",
         "manager": "Laurentius Gernadi",
-        "event_total": 16,
-        "total": 622,
+        "event_total": 18,
+        "total": 624,
         "active_chip": null,
         "captain": 411
       },
@@ -390,28 +390,28 @@
         "rank": 6,
         "team_name": "Pejaten Punten",
         "manager": "Ario Pratomo",
-        "event_total": 0,
-        "total": 591,
-        "active_chip": null,
-        "captain": 411
-      },
-      {
-        "entry_id": 3373176,
-        "rank": 7,
-        "team_name": "Carrick MASTERCLASS!",
-        "manager": "Muhammad Iqbal Wijaya",
-        "event_total": 0,
-        "total": 586,
+        "event_total": 1,
+        "total": 592,
         "active_chip": null,
         "captain": 411
       },
       {
         "entry_id": 8396350,
-        "rank": 8,
+        "rank": 7,
         "team_name": "CTRL ALT DE LIGT",
         "manager": "Khalil Ibrahim",
-        "event_total": 0,
-        "total": 585,
+        "event_total": 2,
+        "total": 587,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 3373176,
+        "rank": 8,
+        "team_name": "Carrick MASTERCLASS!",
+        "manager": "Muhammad Iqbal Wijaya",
+        "event_total": 1,
+        "total": 587,
         "active_chip": null,
         "captain": 411
       },
@@ -420,8 +420,8 @@
         "rank": 9,
         "team_name": "Gacor Utd",
         "manager": "Rhazaq Abraham",
-        "event_total": 2,
-        "total": 576,
+        "event_total": 3,
+        "total": 577,
         "active_chip": "bboost",
         "captain": 411
       },
@@ -440,8 +440,8 @@
         "rank": 11,
         "team_name": "Red Bajink",
         "manager": "Marcel Ignatius",
-        "event_total": 0,
-        "total": 565,
+        "event_total": 3,
+        "total": 568,
         "active_chip": null,
         "captain": 411
       },
@@ -456,8 +456,18 @@
         "captain": 411
       },
       {
-        "entry_id": 8277857,
+        "entry_id": 245478,
         "rank": 13,
+        "team_name": "Mainoo-t to Win It",
+        "manager": "Raushan Al Kasyfie M",
+        "event_total": 1,
+        "total": 556,
+        "active_chip": null,
+        "captain": 411
+      },
+      {
+        "entry_id": 8277857,
+        "rank": 14,
         "team_name": "dikulum dikunyah",
         "manager": "Aloysius Ardeyno",
         "event_total": 2,
@@ -466,22 +476,12 @@
         "captain": 411
       },
       {
-        "entry_id": 245478,
-        "rank": 14,
-        "team_name": "Mainoo-t to Win It",
-        "manager": "Raushan Al Kasyfie M",
-        "event_total": 0,
-        "total": 555,
-        "active_chip": null,
-        "captain": 411
-      },
-      {
         "entry_id": 4370351,
         "rank": 15,
         "team_name": "Eminent",
         "manager": "Hendry Lie",
-        "event_total": 0,
-        "total": 548,
+        "event_total": 1,
+        "total": 549,
         "active_chip": null,
         "captain": 411
       },
@@ -490,8 +490,8 @@
         "rank": 16,
         "team_name": "Kangpijett",
         "manager": "Rizky Wudiandito Kalba",
-        "event_total": 2,
-        "total": 544,
+        "event_total": 4,
+        "total": 546,
         "active_chip": null,
         "captain": 40
       },
@@ -510,8 +510,8 @@
         "rank": 18,
         "team_name": "Zell",
         "manager": "Fauzi NF",
-        "event_total": 0,
-        "total": 537,
+        "event_total": 1,
+        "total": 538,
         "active_chip": null,
         "captain": 411
       },
@@ -550,8 +550,8 @@
         "rank": 22,
         "team_name": "LFG",
         "manager": "Ernanda Putra",
-        "event_total": 2,
-        "total": 504,
+        "event_total": 3,
+        "total": 505,
         "active_chip": null,
         "captain": 411
       },
@@ -580,8 +580,8 @@
         "rank": 25,
         "team_name": "Los Porro Hermanos",
         "manager": "Kamil Adlila",
-        "event_total": 0,
-        "total": 493,
+        "event_total": 3,
+        "total": 496,
         "active_chip": null,
         "captain": 411
       },
@@ -590,8 +590,8 @@
         "rank": 26,
         "team_name": "Ngapain Sih Kita?",
         "manager": "Borneo Verando",
-        "event_total": 2,
-        "total": 482,
+        "event_total": 3,
+        "total": 483,
         "active_chip": null,
         "captain": 4
       },
@@ -600,8 +600,8 @@
         "rank": 27,
         "team_name": "Tromol Ninja FC",
         "manager": "Fikri Trisetio",
-        "event_total": 16,
-        "total": 476,
+        "event_total": 17,
+        "total": 477,
         "active_chip": null,
         "captain": 411
       },
@@ -630,8 +630,8 @@
         "rank": 30,
         "team_name": "the Blues",
         "manager": "Rachmat Setiawan",
-        "event_total": 3,
-        "total": 466,
+        "event_total": 4,
+        "total": 467,
         "active_chip": null,
         "captain": 569
       },
@@ -640,8 +640,8 @@
         "rank": 31,
         "team_name": "AchongFC",
         "manager": "Driantama Arkan",
-        "event_total": 2,
-        "total": 463,
+        "event_total": 3,
+        "total": 464,
         "active_chip": "wildcard",
         "captain": 4
       },
@@ -770,7 +770,7 @@
     ]
   },
   "lineup": {
-    "projected_points": 78.1,
+    "projected_points": 78.0,
     "starting_11": [
       {
         "id": 109,
@@ -788,7 +788,7 @@
         "team": "TOT",
         "position": "DEF",
         "cost": 50,
-        "xp": 6.94,
+        "xp": 6.84,
         "is_captain": false,
         "is_vice": false
       },
@@ -985,7 +985,7 @@
   "wildcard_simulation": {
     "total_cost": 991,
     "remaining_bank": 1,
-    "total_xp_5gw": 432.6,
+    "total_xp_5gw": 432.1,
     "squad": [
       {
         "name": "Verbruggen",
@@ -1020,7 +1020,7 @@
         "team": "TOT",
         "position": "DEF",
         "cost": 50,
-        "total_xp": 31.09
+        "total_xp": 30.65
       },
       {
         "name": "Vuskovic",
